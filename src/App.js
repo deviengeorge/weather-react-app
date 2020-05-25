@@ -1,30 +1,30 @@
-import React from 'react';
-// import './App.css';
+import React from "react";
 
-import Titles from './components/Titles';
-import Form from './components/Form';
-import Weather from './components/Weather';
+import Titles from "./components/Titles";
+import Form from "./components/Form";
+import Weather from "./components/Weather";
 
 const API_KEY = "d084e427f7a4c3698297e30adc0f2def";
 
 class App extends React.Component {
-
   state = {
     temperature: undefined,
     city: undefined,
     country: undefined,
     humidity: undefined,
     description: undefined,
-    error: undefined
-  }
-  
+    error: undefined,
+  };
+
   getWeather = async (e) => {
     e.preventDefault();
 
     const city = e.target.elements.city.value;
     const country = e.target.elements.country.value;
 
-    const api_call = await fetch(`https://cors-anywhere.herokuapp.com/https://api.openweathermap.org/data/2.5/weather?q=${city},${country}&appid=${API_KEY}&units=metric`);
+    const api_call = await fetch(
+      `https://cors-anywhere.herokuapp.com/https://api.openweathermap.org/data/2.5/weather?q=${city},${country}&appid=${API_KEY}&units=metric`
+    );
 
     const data = await api_call.json();
     if (city && country) {
@@ -34,7 +34,7 @@ class App extends React.Component {
         country: data.sys.country,
         humidity: data.main.humidity,
         description: data.weather[0].description,
-        error: ""
+        error: "",
       });
     } else {
       this.setState({
@@ -43,28 +43,28 @@ class App extends React.Component {
         country: undefined,
         humidity: undefined,
         description: undefined,
-        error: "Please enter the values."
+        error: "Please enter the values.",
       });
     }
-  }
+  };
   render() {
     return (
       <div>
-        <div className="wrapper">
-          <div className="container">
-            <div className="row">
-              <div className="col-xs-5 title-container">
+        <div className='wrapper'>
+          <div className='container'>
+            <div className='row'>
+              <div className='col-xs-5 title-container'>
                 <Titles />
               </div>
-              <div className="col-xs-7 form-container">
+              <div className='col-xs-7 form-container'>
                 <Form getWeather={this.getWeather} />
                 <Weather
-                    temperature={this.state.temperature} 
-                    humidity={this.state.humidity}
-                    city={this.state.city}
-                    country={this.state.country}
-                    description={this.state.description}
-                    error={this.state.error}
+                  temperature={this.state.temperature}
+                  humidity={this.state.humidity}
+                  city={this.state.city}
+                  country={this.state.country}
+                  description={this.state.description}
+                  error={this.state.error}
                 />
               </div>
             </div>
